@@ -65,4 +65,21 @@ public:
     unsigned int wait_time( void );
 };
 
+class GELoss : public LossQueue
+{
+private:
+    bool drop_packet( const std::string & packet ) override;
+
+    float p_gb_;
+    float p_bg_;
+    float p_lg_;
+    float p_lb_;
+    bool good_state_;
+    std::uniform_real_distribution<> uniform_dis_;
+
+
+public:
+    GELoss(float p_gb, float p_bg, float p_lg, float p_lb) : p_gb_(p_gb), p_bg_(p_bg), p_lg_(p_lg), p_lb_(p_lb), good_state_(true), uniform_dis_(0.0, 1.0) {}
+};
+
 #endif /* LOSS_QUEUE_HH */

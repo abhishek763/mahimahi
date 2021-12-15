@@ -80,3 +80,32 @@ bool SwitchingLink::drop_packet( const string & packet __attribute((unused)) )
 {
     return !link_is_on_;
 }
+
+
+bool GELoss::drop_packet( const string & packet __attribute((unused)) )
+{
+
+    float move_draw = uniform_dis_(prng_);
+    float drop_draw = uniform_dis_(prng_);
+
+    // Transition
+    if (good_state_) {
+        if (move_draw <= p_gb_) {
+            good_state_ = false;
+        }
+    }
+    else {
+        if (move_draw <= p_bg_) {
+            good_state_ = true;
+        }
+    }
+
+    // Packet loss
+    if (good_state_) {
+        return drop_draw <= p_lg_;
+    }
+    else {
+        return drop_draw <= p_lb_;
+    }
+
+}
