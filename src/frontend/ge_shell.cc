@@ -34,11 +34,13 @@ int main( int argc, char *argv[] )
 
         check_requirements( argc, argv );
 
-        if ( argc < 5 ) {
+        if ( argc < 6 ) {
             usage( argv[ 0 ] );
         }
 
-        const double p_gb = myatof( argv[ 1 ] );
+        const unsigned int seed = myatoi(argv[1]);
+
+        const double p_gb = myatof( argv[ 2 ] );
         if ( (0 <= p_gb && p_gb <= 1) ) {
             /* do nothing */
         } else {
@@ -46,7 +48,7 @@ int main( int argc, char *argv[] )
             usage( argv[ 0 ] );
         }
 
-        const double p_bg = myatof( argv[ 2 ] );
+        const double p_bg = myatof( argv[ 3 ] );
         if ( (0 <= p_gb && p_gb <= 1) ) {
             /* do nothing */
         } else {
@@ -54,7 +56,7 @@ int main( int argc, char *argv[] )
             usage( argv[ 0 ] );
         }
 
-        const double p_lg = myatof( argv[ 3 ] );
+        const double p_lg = myatof( argv[ 4 ] );
         if ( (0 <= p_lg && p_lg <= 1) ) {
             /* do nothing */
         } else {
@@ -62,7 +64,7 @@ int main( int argc, char *argv[] )
             usage( argv[ 0 ] );
         }
 
-        const double p_lb = myatof( argv[ 4 ] );
+        const double p_lb = myatof( argv[ 5 ] );
         if ( (0 <= p_lb && p_lb <= 1) ) {
             /* do nothing */
         } else {
@@ -73,10 +75,10 @@ int main( int argc, char *argv[] )
 
         vector<string> command;
 
-        if ( argc == 5 ) {
+        if ( argc == 6 ) {
             command.push_back( shell_path() );
         } else {
-            for ( int i = 5; i < argc; i++ ) {
+            for ( int i = 6; i < argc; i++ ) {
                 command.push_back( argv[ i ] );
             }
         }
@@ -86,9 +88,9 @@ int main( int argc, char *argv[] )
         string shell_prefix = "[ge_loss] ";
 
         ge_loss_app.start_uplink( shell_prefix,
-                                command,
+                                command, seed,
                                p_gb, p_bg, p_lg, p_lb );
-        ge_loss_app.start_downlink(0.0, 1.0, 0.0, 0.0 );
+        ge_loss_app.start_downlink(0, 0.0, 1.0, 0.0, 0.0 );
 
         return ge_loss_app.wait_for_exit();
     } catch ( const exception & e ) {

@@ -11,6 +11,10 @@ LossQueue::LossQueue()
     : prng_( random_device()() )
 {}
 
+LossQueue::LossQueue(unsigned int seed)
+    : prng_( seed )
+{}
+
 void LossQueue::read_packet( const string & contents )
 {
     if ( not drop_packet( contents ) ) {

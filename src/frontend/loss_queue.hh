@@ -22,6 +22,8 @@ protected:
 
 public:
     LossQueue();
+    LossQueue(unsigned int seed);
+
     virtual ~LossQueue() {}
 
     void read_packet( const std::string & contents );
@@ -79,7 +81,7 @@ private:
 
 
 public:
-    GELoss(float p_gb, float p_bg, float p_lg, float p_lb) : p_gb_(p_gb), p_bg_(p_bg), p_lg_(p_lg), p_lb_(p_lb), good_state_(true), uniform_dis_(0.0, 1.0) {}
+    GELoss(unsigned int seed, float p_gb, float p_bg, float p_lg, float p_lb) : LossQueue(seed), p_gb_(p_gb), p_bg_(p_bg), p_lg_(p_lg), p_lb_(p_lb), good_state_(true), uniform_dis_(0.0, 1.0) {}
 };
 
 #endif /* LOSS_QUEUE_HH */
